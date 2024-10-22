@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud-nginx-1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: crud-nginx
+  template:
+    metadata:
+      labels:
+        app: crud-nginx
+    spec:
+      containers:
+      - name: crud-nginx-1
+        image: ipeweb/crud-nginx:latest  
+        ports:
+        - containerPort: 8070
