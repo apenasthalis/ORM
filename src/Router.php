@@ -1,6 +1,5 @@
 <?php
 
-
 class Router
 {
     public function getRouter($method, $rout): array

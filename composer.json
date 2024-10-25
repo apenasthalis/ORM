@@ -1,0 +1,12 @@
+{
+    "name": "ipeweb/crud",
+    "autoload": {
+        "psr-4": {
+            "Pericao\\ORM\\": "src/"
+        },
+        "files": [
+            "config.php"
+        ]
+    },
+    "require": {}
+}
