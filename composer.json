@@ -1,12 +1,13 @@
 {
-    "name": "ipeweb/crud",
+    "name": "meu-projeto/app",
+    "description": "Meu Projeto em PHP",
+    "require": {
+        "psr/log": "^1.1"
+    },
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Pericao\\ORM\\": "src/"
-        },
-        "files": [
-            "config.php"
-        ]
-    },
-    "require": {}
+            "App\\": "src/"
+        }
+    }
 }

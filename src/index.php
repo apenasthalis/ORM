@@ -1,4 +1,4 @@
-<?php 
+<?php
 header('Acess-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
