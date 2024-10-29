@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.nginx
     volumes:
-      - ./public:/var/www/html/crud/public
+      - ./src:/var/www/html/crud/
     ports:
       - "8070:8070"
     depends_on:
