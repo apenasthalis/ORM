@@ -10,4 +10,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY ./src /var/www/html/crud
 
-CMD composer install
+COPY composer.json /var/www/html/crud/
+
+WORKDIR /var/www/html/crud
+RUN composer install
