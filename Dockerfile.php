@@ -8,9 +8,11 @@ RUN apt-get update && apt-get install -y \
     unzip && \
     docker-php-ext-install pdo pdo_pgsql
 
-COPY ./src /var/www/html/crud
-
-COPY composer.json /var/www/html/crud/
-
+# Define o diretório de trabalho
 WORKDIR /var/www/html/crud
+
+# Copia todos os arquivos do diretório atual para o container
+COPY . .
+
+# Executa o Composer para instalar dependências
 RUN composer install

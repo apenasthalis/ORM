@@ -1,0 +1,16 @@
+{
+    "name": "ipeweb/crud",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ipeweb\\Crud\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "thalis",
+            "email": "thalis@ipeweb.com.br"
+        }
+    ],
+    "require": {}
+}
