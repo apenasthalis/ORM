@@ -1,27 +1,9 @@
-<?php
-header('Acess-Control-Allow-Origin: *');
-header('Content-Type: application/json');
+<?php 
 
-require '../vendor/autoload.php';
+require_once "../vendor/autoload.php";
+require_once "./routes/api.php";
 
-const DBDRIVE = 'pgsql';
-const DBHOST = 'postgres';
-const DBPORT = '5432';
-const DBNAME = 'spotifaux';
-const DBUSER = 'pericao';
-const DBPASS = '123';
+use Pericao\Orm\Core\Core;
+use Pericao\Orm\Http\Route;
 
-try {
-    $connPdo = new \PDO(DBDRIVE . ':host=' . DBHOST . ';port=' . DBPORT . ';dbname=' . DBNAME, DBUSER, DBPASS);
-    $connPdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-    echo "Conexão estabelecida com sucesso!";
-} catch (\PDOException $e) {
-    echo "Erro na conexão: " . $e->getMessage();
-}
-
-
-var_dump($connPdo);
-
-if ($_GET['url']) {
-    $url = explode('/', $_GET['url']);
-}
+Core::dispatch(Route::getRoutes());

@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Ipeweb\\Crud\\' => array($baseDir . '/src'),
+    'Pericao\\Orm\\' => array($baseDir . '/src'),
 );

@@ -8,11 +8,17 @@ RUN apt-get update && apt-get install -y \
     unzip && \
     docker-php-ext-install pdo pdo_pgsql
 
-# Define o diretório de trabalho
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo "xdebug.discover_client_host=true" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo "xdebug.client_port=9003" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo "xdebug.log=/tmp/xdebug.log" >> /usr/local/etc/php/conf.d/xdebug.ini
+
 WORKDIR /var/www/html/crud
 
-# Copia todos os arquivos do diretório atual para o container
 COPY . .
 
-# Executa o Composer para instalar dependências
 RUN composer install
