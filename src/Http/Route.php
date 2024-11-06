@@ -20,7 +20,7 @@ class Route
         self::$routes[] = [
             'path' => $path,
             'action' => $action,
-            'method' => 'GET'
+            'method' => 'POST'
         ];
     }
 
@@ -29,7 +29,7 @@ class Route
         self::$routes[] = [
             'path' => $path,
             'action' => $action,
-            'method' => 'GET'
+            'method' => 'PUT'
         ];
     }
 
@@ -38,7 +38,7 @@ class Route
         self::$routes[] = [
             'path' => $path,
             'action' => $action,
-            'method' => 'GET'
+            'method' => 'DELETE'
         ];
     }
 

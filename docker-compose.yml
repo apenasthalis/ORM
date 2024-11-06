@@ -18,6 +18,8 @@ services:
       dockerfile: Dockerfile.php
     volumes:
       - .:/var/www/html/crud
+    ports:
+      - "9001:9003"
 
   postgres:
     image: postgres:latest
