@@ -2,22 +2,28 @@
 
 namespace Pericao\Orm\Models;
 
-use Pericao\Orm\Utils\Validator;
+use Pericao\Orm\Models\Database;
 
-class User
+class User extends Database
 {
-    public static function create(array $data)  {
-        try{
-            $fields = Validator::validate([
-                'name' => $data['name'] ?? '',
-                'email' => $data['email'] ?? '',
-                'password' => $data['password'] ?? '',
-            ]);
+    public static function save($data)
+    {
+        $pdo = self::getConnection();
 
-            return $fields;
-        }
-        catch(\Exception $e){
-            return ['error' => $e->getMessage()];
-        }
+        $stmt = $pdo->prepare("
+            INSERT
+            INTO 
+                users (name, email, password)
+            values
+            (?,?,?)
+        ");
+
+        $stmt->execute([
+            $data['name'],
+            $data['email'],
+            $data['password']
+        ]);
+
+        return $pdo->lastInsertId() > 0 ? true : false;
     }
 }

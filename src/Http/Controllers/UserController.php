@@ -4,7 +4,7 @@ namespace Pericao\Orm\Http\Controllers;
 
 use Pericao\Orm\Http\Request;
 use Pericao\Orm\Http\Response;
-use Pericao\Orm\Models\User;
+use Pericao\Orm\Services\UserService;
 
 class UserController
 {
@@ -12,20 +12,20 @@ class UserController
     {
         $body = $request->body();
 
-        $user = User::create($body);
+        $userService = UserService::create($body);
 
-        if (isset($user['error'])) {
+        if (isset($userService['error'])) {
             return $response::json([
                     'error' => true,
                     'success' => false, 
-                    'message' => $user['error']
+                    'message' => $userService['error']
                 ], 400);
         }
 
         $response::json([
             'error' => false,
             'success' => true, 
-            'data' => $user
+            'data' => $userService
         ], 201);
     }
 
