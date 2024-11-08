@@ -5,12 +5,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.nginx
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./src:/var/www/html/crud/
     ports:
       - "8070:8070"
     depends_on:
       - php
+    networks:
+     - orm-network
 
   php:
     build:
@@ -20,18 +24,22 @@ services:
       - .:/var/www/html/crud
     ports:
       - "9001:9003"
+    networks:
+     - orm-network
 
   postgres:
     image: postgres:latest
     container_name: postgres_db
-    environment:
-      POSTGRES_USER: pericao
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: spotifaux
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+     - orm-network
 
 volumes:
   pgdata:
+
+networks:
+  orm-network:
+    driver: bridge
