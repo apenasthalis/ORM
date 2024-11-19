@@ -8,6 +8,16 @@ use Pericao\Orm\Utils\Validator;
 
 class UserService
 {
+
+    public static function index()
+    {
+        $user = User::index();
+
+        if (!$user) return ['error' => 'Sorry, we could not found your users.'];
+
+        return $user;
+
+    }
     public static function create(array $data)
     {
         try {

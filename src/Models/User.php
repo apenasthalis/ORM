@@ -3,10 +3,17 @@
 namespace Pericao\Orm\Models;
 
 use PDO;
+use Pericao\Orm\Entity\Crud;
 use Pericao\Orm\Models\Database;
 
 class User extends Database
 {
+    public static function index()
+    {
+        $crudSelect = new Crud();
+        return $crudSelect->select("public", "users");
+    }
+    
     public static function save($data)
     {
         $pdo = self::getConnection();

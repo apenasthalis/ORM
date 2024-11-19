@@ -8,6 +8,29 @@ use Pericao\Orm\Services\UserService;
 
 class UserController
 {
+
+    public function index()
+    {
+        $response = new Response();
+        $userService = UserService::index();
+
+        if (isset($userService['error'])) {
+            return $response::json([
+                    'error' => true,
+                    'success' => false, 
+                    'message' => $userService['error']
+                ], 400);
+        }
+
+        $response::json([
+            'error' => false,
+            'success' => true, 
+            'data' => $userService
+        ], 201);
+        
+        return;
+    }
+
     public function store(Request $request, Response $response)
     {
         $body = $request->body();
@@ -66,12 +89,11 @@ class UserController
                 ], 400);
         }
 
-        $response::json([
+        return $response::json([
             'error' => false,
             'success' => true, 
             'jwt' => $auth
         ], 200);
-        return;
     }
 
     public function update(Request $request, Response $response)
