@@ -22,4 +22,11 @@ final class Crud extends Database
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public function insert(string $schema, $table, array $colunas, array $data) 
+    {
+        $sql = "INSERT {$schema}.{$table}
+        (, ,)
+            values
+        (?,?,?)";        
+    }
 }
