@@ -10,11 +10,6 @@ use Pericao\Orm\Http\Route;
 Core::dispatch(Route::getRoutes());
 
 
-// $user = new Client();
-// $user->find(1);
-// echo $user->name; // Exibe o nome do usuário com ID 1
+$user = new Client();
+$columns = $user->getColumns();
 
-$newUser = new Client();
-$newUser->name = 'John Doe';
-$newUser->email = 'john@example.com';
-$newUser->save(); 
