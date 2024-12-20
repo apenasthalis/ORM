@@ -11,5 +11,8 @@ Core::dispatch(Route::getRoutes());
 
 
 $user = new Client();
-$columns = $user->getColumns();
+$columns = $user->columns;
+$columns = $user->columns;
+$columns = $user->columns;
+
 
