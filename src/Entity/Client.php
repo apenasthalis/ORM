@@ -11,4 +11,10 @@ class Client extends Crud
         $crud = new Crud();
         return $crud->select($table);
     }
+
+    public function getClientById()
+    {
+        $select = new Select();
+        $select->select('client');
+    }
 }

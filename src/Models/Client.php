@@ -33,8 +33,8 @@ class Client
         $query->execute(['table' => $this->table]);
         $this->columns = $query->fetchAll(PDO::FETCH_COLUMN);
 
-        foreach ($this->columns as $column) {
-            $this->columns[0] = $column;
+        foreach ($this->columns as $key => $column) {
+            $this->columns[$key] = $column;
         }
         return $this->columns;
     }
@@ -44,9 +44,9 @@ class Client
         return $this->client->getAllClients($this->table);
     }
 
-    public function insert()
+    public function insert($data)
     {
-
+        return $this->client->insert($data, $this->table, $this->columns);
     }
 
     public function update()

@@ -13,7 +13,7 @@ class Database
     const DBUSER = 'pericao';
     const DBPASS = '123';
 
-    public function getConnection()
+    public static function getConnection()
     {
         $connPdo = new PDO("pgsql:host=postgres_db;port=5432;dbname=spotifaux", "pericao", "123");
         return $connPdo;

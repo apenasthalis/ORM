@@ -3,6 +3,7 @@
 namespace Pericao\Orm\Library\Crud;
 
 use Pericao\Orm\Models\Database;
+use Pericao\Orm\Library\Crud\Select;
 
 class Crud extends Database
 {
@@ -14,22 +15,49 @@ class Crud extends Database
     public function __construct()
     {
         $this->pdo = $this->getConnection();
-        // $this->librarySelect = new Select();
     }
 
-    public function select($table)
+    public function select(string $table): mixed
     {
         $librarySelect = new Select();
-        return $librarySelect->selectAll($table);
+        $query = $librarySelect->select( $table)
+        ->get();
+
+        return $query;
     }
 
-    public function insert()
+    public function insert($data, $table, $columns)
     {
-        
+        $pdo = self::getConnection();
+        $i = 0;
+        foreach ($data as $key => $colunas) {
+            
+            if (in_array($key, $columns)) {
+                $i++;
+               $finalData[$i] = $key;
+            }
+        }
+
+        $stmt = $pdo->prepare("
+            INSERT 
+            INTO 
+                {$table} ()
+            VALUES
+                (?, ?, ?)
+        ");
+
+        $stmt->execute([
+            $data['name'],
+            $data['email'],
+            $data['password'],
+        ]);
+
+        return $pdo->lastInsertId() > 0 ? true : false;
     }
     public function update()
     {
-        
+        $librarySelect = new Select();
+        $librarySelect->select(table:'table');
     }
 
     public function delete()

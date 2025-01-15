@@ -9,10 +9,9 @@ use Pericao\Orm\Http\Route;
 
 Core::dispatch(Route::getRoutes());
 
-
-$user = new Client();
-$columns = $user->columns;
-$columns = $user->columns;
-$columns = $user->columns;
+// $user = new Client();
+// $columns = $user->columns;
+// $columns = $user->columns;
+// $columns = $user->columns;
 
 

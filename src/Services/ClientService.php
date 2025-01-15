@@ -30,9 +30,9 @@ class ClientService
             ]);
 
             $fields['password'] = password_hash($fields['password'], PASSWORD_DEFAULT);
-
-            $user = User::save($fields);
-            if (!$user) return ['error' => 'Sorry, we could not create your account.'];
+            $clientModel = new Client();
+            $result = $clientModel->insert($fields);
+            if (!$result) return ['error' => 'Sorry, we could not create your account.'];
 
             return "User created successfully";
         } catch (\PDOException $e) {
