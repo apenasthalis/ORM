@@ -89,24 +89,25 @@ class ClientService
         }
     }
 
-    public static function update(mixed $authorization, array $data)
+    public static function update(array $data)
     {
         try {
-            if (isset($authorization['error'])) {
-                return ['error' => $authorization['error']];
-            }
+            // if (isset($authorization['error'])) {
+            //     return ['error' => $authorization['error']];
+            // }
 
-            $userFromJwt = JWT::verify($authorization);
+            // $userFromJwt = JWT::verify($authorization);
 
-            if (!$userFromJwt) return ['error' => 'Please, login to access this resource.'];
+            // if (!$userFromJwt) return ['error' => 'Please, login to access this resource.'];
 
             $fields = Validator::validate([
                 'name' => $data['name'] ?? ''
             ]);
+            $clientModel = new Client();
 
-            $user = User::update($userFromJwt['id'], $fields);
+            $client = $clientModel->update($fields);
 
-            if (!$user) return ["error" => "Sorry, we could not update your account"];
+            if (!$client) return ["error" => "Sorry, we could not update your account"];
 
             return "User updated successfully";
 

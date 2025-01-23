@@ -32,6 +32,7 @@ class ClientController
         
         return;
     }
+
     public function show(){
         $response = new Response();
         $userService = ClientService::index();
@@ -52,6 +53,16 @@ class ClientController
         
         return;
     }
+
+    public function update(Request $request, Response $response)
+    {
+        $authorization = $request::authorization();
+
+        $body = $request::body();
+        $userService = ClientService::update($body);
+
+    }
+
     public function store(Request $request, Response $response){
         $body = $request->body();
         $userService = ClientService::create($body);
@@ -72,5 +83,6 @@ class ClientController
         
         return;
     }
+
     public function delete(){}
 }

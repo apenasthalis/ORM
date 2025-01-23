@@ -49,9 +49,9 @@ class Client
         return $this->client->insert($data, $this->table, $this->columns);
     }
 
-    public function update()
+    public function update($data)
     {
-
+        return $this->client->update($data, $this->table, $this->columns);
     }
 
     public function delete()
