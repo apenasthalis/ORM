@@ -6,20 +6,20 @@ use Pericao\Orm\Library\Crud\Crud;
 
 class Update extends Crud
 {
-    public function update($data) 
+    public function update($data, $table, $columns) 
     {
-        $pdo = self::getConnection();
-        
-        $stmt = $this->pdo->prepare('
+        $prepare = new Prepare();
+        $prepareUpdate = $prepare->prepareUpdate($data, $columns);        
+        $stmt = $this->pdo->prepare("
             UPDATE 
-                users
+                {$table}
             SET 
-                name = ?
+                {$prepareUpdate['placeHolders']}
             WHERE 
-                id = ?
-        ');
+               id = {$data['id']}
+        ");
 
-        $stmt->execute([$data['name'], $id]);
+        $stmt->execute($prepareUpdate['filteredData']);
 
         return $stmt->rowCount() > 0 ? true : false;
     }

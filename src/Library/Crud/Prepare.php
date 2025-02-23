@@ -9,7 +9,7 @@ class Prepare
         foreach ($data as $key => $value) {
             if (in_array($key, $columns)) {
                 $finalColumns[] = $key;
-                $placeholders[] = '?';
+                $placeholders[] = "?";
                 $filteredData[] = $value;
             }
         }
@@ -26,8 +26,25 @@ class Prepare
         return $finalData;
     }
 
-    public function prepareUpdate()
+    public function prepareUpdate($data, $columns)
     {
+        foreach ($data as $key => $value) {
+            if (in_array($key, $columns)) {
+                $finalColumns[] = $key;
+                $placeholders[] = "$key = ?";
+                $filteredData[] = $value;
+            }
+        }
 
+        $finalColumns = implode(',',$finalColumns);
+        $placeholders = implode(',', $placeholders);
+
+        $finalData = [
+            'placeHolders' => $placeholders,
+            'filteredData' => $filteredData,
+            'finalColumns' => $finalColumns,
+        ];
+
+        return $finalData;
     }
 }

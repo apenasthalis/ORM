@@ -6,13 +6,22 @@ use Pericao\Orm\Library\Crud\Crud;
 
 class Select extends Crud
 {
-
-    public string $query = '';
+    private string $query = '';
+    private string $from;
+    private ?string $alias;
+    private array $columns = [];
+    private array $joins   = [];
+    private string $group  = '';
+    private array $having  = [];
+    private array $order   = [];
+    private string $offset = '';
+    private string $limit  = '';
+    private bool $distinct = false;
     
-    function select(string $table): self 
+    public function select($table):self 
     {
-       $this->query = "SELECT * FROM {$table}";
-       return $this;
+        $this->query = "SELECT * FROM {$table}";
+        return $this;
     }
 
     public function selectAll($table)
@@ -23,9 +32,10 @@ class Select extends Crud
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function join($table, $condition)
+    public function join($table, $condition):self
     {
-      return $this->query .= " INNER JOIN {$table} ON {$condition}";
+      $this->query .= " INNER JOIN {$table} ON {$condition}";
+      return $this;
     }
 
     public function columns()
@@ -33,14 +43,16 @@ class Select extends Crud
         
     }
 
-    public function where($condition)
+    public function where($condition):self
     {
-        return $this->query .= " WHERE {$condition}";
+        $this->query .= " WHERE {$condition}";
+        return $this;
     }
 
-    public function orderBy(string $column, string $order): string
+    public function orderBy(string $column, string $order): self
     {
-        return $this->query .= " ORDER BY {$column} {$order}";
+        $this->query .= " ORDER BY {$column} {$order}";
+        return $this;
     }
 
     public function get(): array

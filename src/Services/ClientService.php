@@ -20,6 +20,17 @@ class ClientService
         return $client;
 
     }
+
+    public static function show($id)
+    {
+        $dbClient = new Client();
+        $client =  $dbClient->getClientById($id);
+
+        if (!$client) return ['error' => 'Sorry, we could not found your users.'];
+
+        return $client;
+    }
+
     public static function create(array $data)
     {
         try {
@@ -101,7 +112,11 @@ class ClientService
             // if (!$userFromJwt) return ['error' => 'Please, login to access this resource.'];
 
             $fields = Validator::validate([
-                'name' => $data['name'] ?? ''
+                'id' => $data['id'],
+                'name' => $data['name'] ?? '',
+                'email' => $data['email'] ?? '',
+                'password' => $data['password'] ?? '',
+
             ]);
             $clientModel = new Client();
 

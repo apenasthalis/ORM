@@ -8,8 +8,6 @@ use Pericao\Orm\Library\Crud\Select;
 
 class Crud extends Database
 {
-    //crud ficará responsavel por chamar outros metodos e classes que ficam na mesma pasta, por exemplo: Select, Insert, Delete. Dentro de cada classe
-    //dessa, terá seus codigos sql para que funcione, relembrando que a entity chamará os arquivos dessa classe!!
     protected $pdo;
     protected $librarySelect; 
 
@@ -38,7 +36,9 @@ class Crud extends Database
     public function update($data, $table, $columns)
     {
         $libraryUpdate = new Update();
-        $libraryUpdate->update($data);
+        $libraryUpdate->update($data, $table, $columns);
+
+        return $data['id'];
     }
 
     public function delete()

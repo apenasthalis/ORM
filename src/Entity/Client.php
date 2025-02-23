@@ -4,17 +4,25 @@ namespace Pericao\Orm\Entity;
 use Pericao\Orm\Library\Crud\Crud;
 use Pericao\Orm\Library\Crud\Select;
 
-class Client extends Crud
+class Client
 {
+    // public function __construct(){}
     public function getAllClients($table)
     {
-        $crud = new Crud();
-        return $crud->select($table);
+        $librarySelect = new Select();
+        $query = $librarySelect->select( $table)
+        ->get();
+
+        return $query;
     }
 
-    public function getClientById()
+    public function getClientById($id ,$table)
     {
-        $select = new Select();
-        $select->select('client');
+        $librarySelect = new Select();
+        $query = $librarySelect->select( $table)
+        ->where("id = $id")
+        ->get();
+        
+        return $query;
     }
 }
