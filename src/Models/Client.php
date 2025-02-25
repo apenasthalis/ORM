@@ -12,7 +12,6 @@ class Client extends Model
     //model ficará responsavel por chamar as coisas na entity, seja inserir, alterar e tudo mais 
     public $table = 'client'; 
     public $schema = 'public'; 
-
     public $columns = [];
     public $client;
     public $crud;
@@ -25,7 +24,7 @@ class Client extends Model
 
     public function getAll() 
     {
-        return $this->client->getAllClients($this->table);
+        return $this->client->getAllClients($this->schema,$this->table);
     }
 
     public function getClientById($id)

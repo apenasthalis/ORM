@@ -6,60 +6,60 @@ use Pericao\Orm\Library\Crud\Crud;
 
 class Select extends Crud
 {
-    private string $query = '';
-    private string $from;
-    private ?string $alias;
-    private array $columns = [];
-    private array $joins   = [];
-    private string $group  = '';
-    private array $having  = [];
-    private array $order   = [];
-    private string $offset = '';
-    private string $limit  = '';
-    private bool $distinct = false;
+    protected string $query = '';
+    protected string $allColumns = '*';
+    protected string $select;
+    protected string $from;
+    protected ?string $alias;
+    protected array $columns = [];
+    protected array $join = [];
+    protected array $where = [];
+    protected string $group  = '';
+    protected array $having  = [];
+    protected array $order   = [];
+    protected string $offset = '';
+    protected string $limit  = '';
+    protected bool $distinct = false;
     
-    public function select($table):self 
+    public function select(array $columns): self 
     {
-        $this->query = "SELECT * FROM {$table}";
+        $this->columns = $columns ?? $this->allColumns;
         return $this;
     }
 
-    public function selectAll($table)
+    public function from($schema, $table): self
     {
-        $sql = "SELECT * FROM {$table}";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $this->from = "{$schema}.{$table}";
+        return $this;
     }
 
-    public function join($table, $condition):self
+    public function join($schema, $table, $condition, $type = 'inner'): self
     {
-      $this->query .= " INNER JOIN {$table} ON {$condition}";
-      return $this;
+        $alias = '';
+        $type = strtoupper($type);
+        foreach ($table as $alias => $name) {
+            $alias = (string) $alias;
+            $table = (string) $name;
+        }
+        $this->join[] = "$type JOIN {$schema}.{$table} AS {$alias} ON {$condition} ";
+        return $this;
     }
 
-    public function columns()
+    public function where($condition): self
     {
-        
-    }
-
-    public function where($condition):self
-    {
-        $this->query .= " WHERE {$condition}";
+        $this->where[] = " WHERE {$condition}";
         return $this;
     }
 
     public function orderBy(string $column, string $order): self
     {
-        $this->query .= " ORDER BY {$column} {$order}";
+        $this->order[] = " ORDER BY {$column} {$order}";
         return $this;
     }
 
-    public function get(): array
+    public function get()
     {
-        $stmt = $this->pdo->prepare($this->query);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->prepareSql($this);
     }
 
     public function getSelectRaw()

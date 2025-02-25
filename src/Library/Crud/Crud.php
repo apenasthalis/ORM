@@ -10,19 +10,37 @@ class Crud extends Database
 {
     protected $pdo;
     protected $librarySelect; 
+    private $select;
 
     public function __construct()
     {
         $this->pdo = $this->getConnection();
     }
 
-    public function select(string $table): mixed
+    public function prepareSql($data)
     {
-        $librarySelect = new Select();
-        $query = $librarySelect->select( $table)
-        ->get();
+        if (!empty($data->columns)) {
+            $columnsString = $this->prepareColumns($data->columns);
+        }
+        $columns = $columnsString ?? $data->allColumns; 
+        $select = "SELECT {$columns} " . $data->from;
+        if (!empty($data->join)) {
+            $select .= "";
+        }
+        $this->getRegisters($select);
+    }
 
-        return $query;
+    public function prepareColumns($columns)
+    {
+        if (empty($columns)) return;
+        return implode(',',$columns);
+       
+    }
+    public function getRegisters($query): array
+    {
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function insert($data, $table, $columns)
@@ -52,11 +70,6 @@ class Crud extends Database
     }
 
     public function fetchAll()
-    {
-        
-    }
-
-    public function get()
     {
         
     }
