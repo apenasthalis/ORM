@@ -10,9 +10,10 @@ class Client
     public function getAllClients($schema ,$table)
     {
         $librarySelect = new Select();
-        $query = $librarySelect->select(['id', 'name'])
+        $query = $librarySelect->select()
         ->from($schema, ['c' => $table])
-        ->join('public', ['d' => 'docs'], '')
+        ->join('public', ['d' => 'docs'], 'c.ic = d.id_client')
+        ->join('public', ['v' => 'vehicle'], 'c.id = v.id_client')
         ->get();
 
         return $query;

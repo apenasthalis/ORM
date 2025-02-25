@@ -19,23 +19,40 @@ class Crud extends Database
 
     public function prepareSql($data)
     {
-        if (!empty($data->columns)) {
-            $columnsString = $this->prepareColumns($data->columns);
-        }
-        $columns = $columnsString ?? $data->allColumns; 
+        $columnsString = $this->prepareColumns($data->columns);
+        $columns = $columnsString ?? $data->allColumns;
         $select = "SELECT {$columns} " . $data->from;
-        if (!empty($data->join)) {
-            $select .= "";
-        }
+        $select .= $this->prepareJoin($data->join);
+        $this->prepareWhere($data->where);
         $this->getRegisters($select);
     }
 
     public function prepareColumns($columns)
     {
-        if (empty($columns)) return;
+        if (empty($columns)) return false;
         return implode(',',$columns);
-       
     }
+
+    public function prepareJoin($join)
+    {
+        $select = '';
+        if (empty($join)) return false;
+        foreach ($join as $value) {
+            $select .= $value;
+        }
+        return $select;
+    }
+
+    public function prepareWhere($where)
+    {
+        $select = '';
+        if (empty($where)) return false;
+        foreach ($where as $value) {
+            $select .= $value;
+        }
+        return $select;
+    }
+
     public function getRegisters($query): array
     {
         $stmt = $this->pdo->prepare($query);

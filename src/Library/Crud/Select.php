@@ -21,15 +21,19 @@ class Select extends Crud
     protected string $limit  = '';
     protected bool $distinct = false;
     
-    public function select(array $columns): self 
+    public function select($columns = '*'): self 
     {
-        $this->columns = $columns ?? $this->allColumns;
+        $this->columns[] = $columns;
         return $this;
     }
 
     public function from($schema, $table): self
     {
-        $this->from = "{$schema}.{$table}";
+        foreach ($table as $alias => $name) {
+            $alias = (string) $alias;
+            $table = (string) $name;
+        }
+        $this->from = "{$schema}.{$table} AS $alias";
         return $this;
     }
 
