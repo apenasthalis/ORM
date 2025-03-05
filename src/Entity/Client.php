@@ -6,16 +6,17 @@ use Pericao\Orm\Library\Crud\Select;
 
 class Client
 {
-    // public function __construct(){}
     public function getAllClients($schema ,$table)
     {
         $librarySelect = new Select();
-        $query = $librarySelect->select()
+        $query = $librarySelect->select(['id', 'name'])
         ->from($schema, ['c' => $table])
-        ->join('public', ['d' => 'docs'], 'c.ic = d.id_client')
-        ->join('public', ['v' => 'vehicle'], 'c.id = v.id_client')
+        ->join('public', ['d' => 'docs'], 'c.id = d.id_client', ['id','cpf'])
+        ->join('public', ['v' => 'vehicle'], 'c.id = v.id_client','')
+        ->where('c.id = 1')
+        ->orderBy('c.id DESC')
+        ->orderBy('d.cpf DESC')
         ->get();
-
         return $query;
     }
 
@@ -25,7 +26,6 @@ class Client
         $query = $librarySelect->select($table)
         ->where("id = $id")
         ->get();
-        
         return $query;
     }
 
@@ -35,7 +35,6 @@ class Client
         $query = $librarySelect->select( $table)
         ->where("id = $id")
         ->get();
-        
         return $query;
     }
 }

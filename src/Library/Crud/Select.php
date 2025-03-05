@@ -11,7 +11,7 @@ class Select extends Crud
     protected string $select;
     protected string $from;
     protected ?string $alias;
-    protected array $columns = [];
+    protected array $columns;
     protected array $join = [];
     protected array $where = [];
     protected string $group  = '';
@@ -21,7 +21,7 @@ class Select extends Crud
     protected string $limit  = '';
     protected bool $distinct = false;
     
-    public function select($columns = '*'): self 
+    public function select($columns = '*'): Select 
     {
         $this->columns[] = $columns;
         return $this;
@@ -30,21 +30,24 @@ class Select extends Crud
     public function from($schema, $table): self
     {
         foreach ($table as $alias => $name) {
-            $alias = (string) $alias;
+            $this->alias = (string) $alias;
             $table = (string) $name;
         }
-        $this->from = "{$schema}.{$table} AS $alias";
+        $this->from = "{$schema}.{$table} AS $this->alias ";
         return $this;
     }
 
-    public function join($schema, $table, $condition, $type = 'inner'): self
+    public function join($schema, $table, $condition, $columns = '', $type = 'inner'): self
     {
+        $columns = !empty($columns) ? $columns : '*';
         $alias = '';
         $type = strtoupper($type);
         foreach ($table as $alias => $name) {
             $alias = (string) $alias;
             $table = (string) $name;
         }
+        $instancedColumns = $this->prepareColumnsJoin($alias,$columns);
+        $this->columns[] = $instancedColumns;
         $this->join[] = "$type JOIN {$schema}.{$table} AS {$alias} ON {$condition} ";
         return $this;
     }
@@ -55,9 +58,9 @@ class Select extends Crud
         return $this;
     }
 
-    public function orderBy(string $column, string $order): self
+    public function orderBy(string $order): self
     {
-        $this->order[] = " ORDER BY {$column} {$order}";
+        $this->order[] = "{$order}";
         return $this;
     }
 

@@ -19,18 +19,22 @@ class Crud extends Database
 
     public function prepareSql($data)
     {
-        $columnsString = $this->prepareColumns($data->columns);
+        $columnsString = $this->prepareColumns($data->alias,$data->columns);
         $columns = $columnsString ?? $data->allColumns;
-        $select = "SELECT {$columns} " . $data->from;
+        $select = "SELECT {$columns} FROM " . $data->from;
         $select .= $this->prepareJoin($data->join);
-        $this->prepareWhere($data->where);
-        $this->getRegisters($select);
+        $select .= $this->prepareWhere($data->where);
+        $select .= $this->prepareOrder($data->order);
+        return $this->getRegisters($select);
     }
 
-    public function prepareColumns($columns)
+    public function prepareColumns($alias, $columns)
     {
         if (empty($columns)) return false;
-        return implode(',',$columns);
+        $instancedColumns = array_map(fn($col) => "{$alias}." . $col, $columns[0]);
+        unset($columns[0]);
+        $preparedColumns = array_merge($instancedColumns, $columns);
+        return implode(',', $preparedColumns);
     }
 
     public function prepareJoin($join)
@@ -52,6 +56,27 @@ class Crud extends Database
         }
         return $select;
     }
+
+    public function prepareColumnsJoin($alias,$columns)
+    {
+        if ($columns == '*') {
+            return "{$alias}.{$columns}";
+        }
+        $columns = array_map(fn($col) => "{$alias}." . $col, $columns);
+        return implode(',', $columns);
+    }
+
+    public function prepareOrder($orders)
+    {
+        if (empty($orders)) return '';
+        $finalOrders = " ORDER BY ";
+        $countOrders = count($orders);
+        if ($countOrders == 1) {
+            return "$finalOrders $orders[0]";
+        }
+        return $finalOrders . implode(', ', $orders);
+    }
+    
 
     public function getRegisters($query): array
     {
