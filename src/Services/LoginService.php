@@ -2,7 +2,8 @@
 
 namespace Pericao\Orm\Services;
 
-use Pericao\Orm\Models\Client;
+use Pericao\Orm\Http\Middlewares\Jwt;
+use Pericao\Orm\Models\Login;
 use Pericao\Orm\Utils\Validator;
 
 class LoginService
@@ -11,12 +12,12 @@ class LoginService
     {
         try {
             $fields = Validator::validate([
-                'email' => $data['email'] ?? '',
+                'name' => $data['name'] ?? '',
                 'password' => $data['password'] ?? ''
 
             ]);
-
-            $user = Client::authentication($fields);
+            $loginModel = new Login();
+            $user = $loginModel->authentication($fields);
             if (!$user) return ['error' => 'Sorry, we could not authenticate you.'];
 
             return Jwt::generate($user);

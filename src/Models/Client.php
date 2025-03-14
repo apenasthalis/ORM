@@ -9,10 +9,9 @@ use Pericao\Orm\Library\Crud\Crud;
 
 class Client extends Model
 {
-    //model ficará responsavel por chamar as coisas na entity, seja inserir, alterar e tudo mais 
-    public $table = 'client'; 
-    public $schema = 'public'; 
-    public $columns = [];
+    protected $table = 'client'; 
+    protected $schema = 'public'; 
+    protected $columns = [];
     public $client;
     public $crud;
 

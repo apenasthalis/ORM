@@ -5,6 +5,7 @@ namespace Pericao\Orm\Http\Controllers;
 use Pericao\Orm\Http\Request;
 use Pericao\Orm\Http\Response;
 use Pericao\Orm\Services\ClientService;
+use Pericao\Orm\Services\LoginService;
 
 class LoginController
 {
@@ -12,7 +13,7 @@ class LoginController
     {
         $body = $request::body();
 
-        $clientService = ClientService::auth($body);
+        $clientService = LoginService::auth($body);
 
         if (isset($clientService['error'])) {
             return $response::json([
