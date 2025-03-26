@@ -8,6 +8,8 @@ use Pericao\Orm\Http\Response;
 
 class Core
 {
+
+    
     public static function dispatch(array $routes)
     {
         isset($_GET['url']) && $url = $_GET['url'];
@@ -38,7 +40,9 @@ class Core
                         $extendMiddleware = new $aliasMiddlewares();
                         $extendMiddleware->handle();
                     } catch (Exceptions $e) {
-                        return response()->json(['error' => $e->getMessage()], $e->getCode());
+                        Exceptions::jsonResponse(['error' => $e->getMessage()], $e->getCode());
+                    } catch (\Exception $e) {
+                        Exceptions::jsonResponse(['error' => 'An unexpected error occurred.'], 500);
                     }
                 }
                 [$controller, $action] = explode('@', $route['action']);

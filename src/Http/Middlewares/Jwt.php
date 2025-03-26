@@ -8,7 +8,7 @@ use Pericao\Orm\Library\Crud\Select;
 
 class Jwt
 {
-    private static string $secret = "secret-key";
+    private static string $secret = "LOBISOMEN";
 
     public function handle()
     {
@@ -16,10 +16,10 @@ class Jwt
         $authorization = $request::authorization();
         $dataFromJwt = self::verify($authorization);
         if (!$dataFromJwt) {
-            throw new Exceptions("ta doido", 401);
+            throw new Exceptions("Sorry, we could not authenticate you.", 401);
         }
-        $dados = json_decode($dataFromJwt, true);
-        $userFromJwt =$this->userFromJwt($dados['id']);
+        $arrayDataJwt = json_decode($dataFromJwt, true);
+        $userFromJwt =$this->userFromJwt($arrayDataJwt['id']);
         return $userFromJwt;
     }
 
