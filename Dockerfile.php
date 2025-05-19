@@ -5,8 +5,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     git \
-    unzip && \
-    docker-php-ext-install pdo pdo_pgsql
+    unzip \
+    curl \
+    libcurl4-openssl-dev && \
+    docker-php-ext-install pdo pdo_pgsql curl
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 

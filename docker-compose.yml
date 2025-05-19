@@ -1,6 +1,7 @@
   services:
     vault:
         image: hashicorp/vault:latest
+        container_name: vault_corp
         ports:
           - "8200:8200"
         environment:
@@ -11,6 +12,8 @@
           - ./vault/config/vault-config.hcl:/vault/config/vault-config.hcl
           - vault-data:/vault/file
         command: "vault server -config=/vault/config/vault-config.hcl"
+        extra_hosts:
+          - "host.docker.internal:host-gateway"
     rabbitmq:
       image: rabbitmq:3-management
       ports:
