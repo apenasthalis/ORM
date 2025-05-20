@@ -6,7 +6,6 @@ class Vault
 {
     public function init()
     {
-        $url = "http://192.168.1.45:8200/v1/kv/data/calica";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
