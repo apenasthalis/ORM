@@ -23,4 +23,4 @@ RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)"
 WORKDIR /var/www/html/crud
 
 COPY . .
-RUN composer install
+#RUN composer install

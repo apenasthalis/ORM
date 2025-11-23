@@ -1,8 +1,7 @@
 <?php
-$vault_url = "http://vault:8200/v1/secret/data/myapp"; // Nome do container Vault
-$vault_token = "s.mytokensecreto"; // Token definido no docker-compose
+$vault_url = "http://vault:8200/v1/secret/data/myapp";
+$vault_token = "s.mytokensecreto";
 
-// Inicializa o cURL
 $ch = curl_init();
 
 curl_setopt($ch, CURLOPT_URL, $vault_url);

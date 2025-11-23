@@ -63,19 +63,19 @@
       networks:
       - orm-network
 
-    postgres:
-      image: postgres:latest
-      container_name: postgres_db
-      ports:
-        - "5432:5432"
-      volumes:
-        - pgdata:/var/lib/postgresql/data
-      networks:
-      - orm-network
+    # postgres:
+    #   image: postgres:latest
+    #   container_name: postgres_db
+    #   ports:
+    #     - "5432:5432"
+    #   volumes:
+    #     - pgdata:/var/lib/postgresql/data
+    #   networks:
+    #   - orm-network
       #command: ["postgres", "-c", "max_connections=200"]
 
   volumes:
-    pgdata:
+    # pgdata:
     vault-data:
     rabbitmq_data:
     minio_data:
