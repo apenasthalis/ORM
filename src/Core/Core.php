@@ -8,8 +8,6 @@ use Pericao\Orm\Http\Response;
 
 class Core
 {
-
-    
     public static function dispatch(array $routes)
     {
         isset($_GET['url']) && $url = $_GET['url'];
